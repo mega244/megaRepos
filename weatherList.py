@@ -10,50 +10,53 @@ st.set_page_config(page_title="那須塩原の天気比較", layout="centered")
 # スマホ表示を美しく見せるためのCSS調整
 st.markdown("""
     <style>
-    /* 全体の余白を詰めてスマホで見やすく */
-    .block-container { padding-top: 1rem; padding-bottom: 1rem; padding-left: 0.5rem; padding-right: 0.5rem; }
-    
-    /* カード型デザインのスタイル */
-    .weather-card {
-        background-color: #1e1e1e;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #333;
+    /* 1) タイトルの見切れ対策: 上部の余白(padding-top)を増やして上に隠れないようにする */
+    .block-container {
+        padding-top: 3rem !important;
+        padding-bottom: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
+
+    /* 2) タイトルの改行対策: スマホ向けにフォントサイズを小さくし、強制的に1行に収める */
+    h1 {
+        font-size: 1.5rem !important;
+        line-height: 1.3 !important;
+        white-space: nowrap !important;
+    }
+
+    /* 3) カード型デザインのスタイル（白背景にして見やすく変更） */
+    .weather-card {
+        background-color: #e0ffff; /* 黒から白背景に変更 */
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0; /* 薄いグレーの枠線 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* ほんのり影をつけて浮き上がらせる */
+        color: #333333 !important; /* カード内の文字を濃いグレー（見やすい黒）に統一 */
+    }
+
+    /* カード内の日付ヘッダー */
     .card-header {
         font-weight: bold;
-        font-size: 1.05rem;
-        border-bottom: 1px solid #444;
-        padding-bottom: 4px;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 8px;
         margin-bottom: 8px;
-        color: #f0f2f6;
+        color: #111111 !important; /* 日付は真っ黒にして強調 */
     }
+
+    /* 各サイトの天気行 */
     .site-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 4px;
-        font-size: 0.9rem;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed #f0f0f0; /* 区切り線を薄い点線に */
+        color: #333333 !important; /* サイト名なども黒に変更 */
     }
-    .site-name {
-        font-weight: bold;
-        width: 75px;
-    }
-    .site-weather {
-        width: 100px;
-        text-align: left;
-    }
-    .site-rain {
-        width: 45px;
-        text-align: right;
-        color: #64B5F6;
-        font-weight: bold;
-    }
-    .site-temp {
-        width: 80px;
-        text-align: right;
-        color: #FF8A65;
+    .site-row:last-child {
+        border-bottom: none;
     }
     </style>
 """, unsafe_allow_html=True)
