@@ -11,52 +11,72 @@ st.set_page_config(page_title="那須塩原の天気比較", layout="centered")
 st.markdown("""
     <style>
     /* 1) タイトルの見切れ対策: 上部の余白(padding-top)を増やして上に隠れないようにする */
-    .block-container {
-        padding-top: 3rem !important;
-        padding-bottom: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
+    .block-container { 
+        padding-top: 3rem !important; 
+        padding-bottom: 1rem; 
+        padding-left: 0.5rem; 
+        padding-right: 0.5rem; 
     }
 
     /* 2) タイトルの改行対策: スマホ向けにフォントサイズを小さくし、強制的に1行に収める */
     h1 {
-        font-size: 1.5rem !important;
+        font-size: 1.5rem !important; 
         line-height: 1.3 !important;
         white-space: nowrap !important;
     }
 
-    /* 3) カード型デザインのスタイル（白背景にして見やすく変更） */
+    /* 3) カード型デザインのスタイル */
     .weather-card {
-        background-color: #e0ffff; /* 黒から白背景に変更 */
+        background-color: #e0f7fa; 
         border-radius: 10px;
         padding: 12px;
         margin-bottom: 15px;
-        border: 1px solid #e0e0e0; /* 薄いグレーの枠線 */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* ほんのり影をつけて浮き上がらせる */
-        color: #333333 !important; /* カード内の文字を濃いグレー（見やすい黒）に統一 */
+        border: 1px solid #b2ebf2; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+        color: #333333 !important; 
     }
-
+    
     /* カード内の日付ヘッダー */
     .card-header {
         font-weight: bold;
         font-size: 1.1rem;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid #b2ebf2;
         padding-bottom: 8px;
         margin-bottom: 8px;
-        color: #111111 !important; /* 日付は真っ黒にして強調 */
+        color: #111111 !important; 
     }
-
+    
     /* 各サイトの天気行 */
     .site-row {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         padding: 6px 0;
-        border-bottom: 1px dashed #f0f0f0; /* 区切り線を薄い点線に */
-        color: #333333 !important; /* サイト名なども黒に変更 */
+        border-bottom: 1px dashed #cccccc; 
+        color: #333333 !important; 
     }
+    
+    /* 一番最後の行だけは下線を消す設定 */
     .site-row:last-child {
         border-bottom: none;
+    }
+
+    /* 4) 各要素の横幅を固定して縦ラインを綺麗に揃える設定 */
+    .site-row .site-name {
+        width: 30%;      /* サイト名エリア */
+        text-align: left;
+    }
+    .site-row .site-weather {
+        width: 35%;      /* 天気テキストエリア */
+        text-align: left;
+    }
+    .site-row .site-rain {
+        width: 15%;      /* 降水確率エリア */
+        text-align: right;
+        padding-right: 5px; 
+    }
+    .site-row .site-temp {
+        width: 20%;      /* 気温エリア */
+        text-align: right;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -386,7 +406,7 @@ if df_merged is not None:
     tab_card, tab_table = st.tabs(["📱 スマホカード表示", "📊 項目別・横並び比較"])
     
     # ------------------
-    # 1. スマホカード表示 (案③ベース)
+    # 1. スマホカード表示
     # ------------------
     with tab_card:
         st.caption("日付ごとに3社の予報をコンパクトに並べています。スクロールで簡単に比較できます。")
@@ -401,6 +421,7 @@ if df_merged is not None:
             else:
                 header_style = ""
                 
+            # ★【修正点】ここから下のHTML表示のインデントを下げ、forループの内部に入れました
             st.markdown(f"""
             <div class="weather-card">
                 <div class="card-header" style="{header_style}">{row['日付']}</div>
@@ -429,7 +450,7 @@ if df_merged is not None:
             """, unsafe_allow_html=True)
 
     # ------------------
-    # 2. 項目別・横並び比較 (案②ベース)
+    # 2. 項目別・横並び比較
     # ------------------
     with tab_table:
         st.caption("見たい情報だけを3社でスマートに横並び比較できます。横スクロールが不要です！")
